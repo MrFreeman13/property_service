@@ -10,13 +10,31 @@ RSpec.describe Property, type: :model do
         create(:property, house_number: '21', lng: 52.533486, lat: 13.427169)
       end
 
-      it 'returns properties in radius' do
-        expect(subject.map(&:house_number)).to include(*['30A', '21'])
+      context 'models structure' do
+        it 'only with necessary attributes' do
+          expect(subject.first.attributes.keys).to eq(%w(id zip_code city street house_number lng lat price))
+        end
       end
 
-      it 'does not return any properties outside 5 km area' do
-        create(:property, house_number: '50', lng: 52.528367, lat: 13.374742)
-        expect(subject.map(&:house_number)).to_not include('50')
+      context 'properties' do
+        it 'returns properties in radius' do
+          expect(subject.map(&:house_number)).to include(*['30A', '21'])
+        end
+
+        it 'does not return any properties outside 5 km area' do
+          create(:property, house_number: '50', lng: 52.528367, lat: 13.374742)
+          expect(subject.map(&:house_number)).to_not include('50')
+        end
+
+        it 'does not return properties with different offer_type' do
+          create(:property, offer_type: 'rent', house_number: '10')
+          expect(subject.map(&:house_number)).to_not include('10')
+        end
+
+        it 'does not return properties with different property_type' do
+          create(:property, property_type: 'house', house_number: '11')
+          expect(subject.map(&:house_number)).to_not include('11')
+        end
       end
     end
   end
