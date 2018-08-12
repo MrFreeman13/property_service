@@ -1,7 +1,11 @@
 class PropertiesController < ApplicationController
   def index
     @properties = Property.similar(properties_params)
-    json_response(@properties)
+    if @properties.any?
+      json_response(@properties)
+    else
+      json_response(@properties, :no_content)
+    end
   end
 
   private

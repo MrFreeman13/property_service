@@ -47,6 +47,30 @@ RSpec.describe 'Properties API', type: :request do
           expect(response).to have_http_status(200)
         end
       end
+
+      context 'when data does not exist for given params' do
+        it 'returns empty body when property out of radius' do
+          get '/properties',
+              params: { lng: 52.533730, lat: 13.626110, property_type: :apartment, marketing_type: :sell }
+          expect(response.body).to be_empty
+          expect(response).to have_http_status(204)
+        end
+
+
+        it 'returns empty body when does not match property type' do
+          get '/properties',
+              params: { lng: 52.533730, lat: 13.426110, property_type: :house, marketing_type: :sell }
+          expect(response.body).to be_empty
+          expect(response).to have_http_status(204)
+        end
+
+        it 'returns empty body when does not match marketing type' do
+          get '/properties',
+              params: { lng: 52.533730, lat: 13.626110, property_type: :apartment, marketing_type: :rent }
+          expect(response.body).to be_empty
+          expect(response).to have_http_status(204)
+        end
+      end
     end
   end
 end
