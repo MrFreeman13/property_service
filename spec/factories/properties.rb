@@ -11,6 +11,6 @@ FactoryBot.define do
     construction_year 1876
     number_of_rooms 2.0
     currency 'eur'
-    price 350000
+    price 350000.00
   end
 end

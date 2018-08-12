@@ -11,7 +11,36 @@ RSpec.describe 'Properties API', type: :request do
       context 'when data exists for given params' do
         before do
           get '/properties',
-                       params: { lng: 13.426110, lat: 52.533730, property_type: :apartment, marketing_type: :sell }
+                       params: { lng: 52.533730, lat: 13.426110, property_type: :apartment, marketing_type: :sell }
+        end
+
+        it 'return properties in 5km radius' do
+          expect(json).not_to be_empty
+          expect(json).to eq(
+                            [
+                               {
+                                 'house_number' => '30A',
+                                 'street' => 'Marienburger Straße',
+                                 'city' => 'Berlin',
+                                 'zip_code' => '10405',
+                                 'state' => 'Berlin',
+                                 'lat' => '13.427955',
+                                 'lng' => '52.533809',
+                                 'price' => '350000.00'
+
+                               },
+                               {
+                                 'house_number' => '21',
+                                 'street' => 'Marienburger Straße',
+                                 'city' => 'Berlin',
+                                 'zip_code' => '10405',
+                                 'state' => 'Berlin',
+                                 'lat' => '13.427169',
+                                 'lng' => '52.533486',
+                                 'price' => '350000.00'
+                               }
+                            ]
+                          )
         end
 
         it 'returns status code 200' do
