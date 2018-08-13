@@ -3,7 +3,9 @@ require 'rails_helper'
 RSpec.describe Property, type: :model do
   describe 'similar' do
     context 'select properties within 5 km radius' do
-      let(:subject) { described_class.similar(52.533730, 13.426110, 'apartment', 'sell') }
+      let(:subject) do
+        described_class.similar(lng: 52.533730, lat: 13.426110, property_type: 'apartment', marketing_type: 'sell')
+      end
 
       before do
         create(:property, house_number: '30A', lng: 52.533809, lat: 13.427955)
