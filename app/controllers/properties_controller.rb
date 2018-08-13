@@ -1,4 +1,6 @@
 class PropertiesController < ApplicationController
+  before_action :validate_params
+
   def index
     @properties = Property.similar(properties_params)
     if @properties.any?
@@ -11,6 +13,10 @@ class PropertiesController < ApplicationController
   private
 
   def properties_params
-    params.permit(:lng, :lat, :property_type, :marketing_type).to_h.symbolize_keys
+    params.permit(*required_params).to_h.symbolize_keys
+  end
+
+  def required_params
+    [:lng, :lat, :property_type, :marketing_type]
   end
 end

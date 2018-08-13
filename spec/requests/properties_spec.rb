@@ -59,7 +59,7 @@ RSpec.describe 'Properties API', type: :request do
 
         it 'returns empty body when does not match property type' do
           get '/properties',
-              params: { lng: 52.533730, lat: 13.426110, property_type: :house, marketing_type: :sell }
+              params: { lng: 52.533730, lat: 13.426110, property_type: :single_family_house, marketing_type: :sell }
           expect(response.body).to be_empty
           expect(response).to have_http_status(204)
         end
@@ -69,6 +69,41 @@ RSpec.describe 'Properties API', type: :request do
               params: { lng: 52.533730, lat: 13.626110, property_type: :apartment, marketing_type: :rent }
           expect(response.body).to be_empty
           expect(response).to have_http_status(204)
+        end
+      end
+    end
+
+    context 'when params are invalid' do
+      context 'when property type is invalid' do
+        before do
+          get '/properties',
+              params: { lng: 52.533730, lat: 13.426110, property_type: :castle, marketing_type: :sell }
+        end
+
+        it 'returns status code 422' do
+          expect(response).to have_http_status(422)
+        end
+      end
+
+      context 'when marketing type is invalid' do
+        before do
+          get '/properties',
+              params: { lng: 52.533730, lat: 13.426110, property_type: :apartment, marketing_type: :promo }
+        end
+
+        it 'returns status code 422' do
+          expect(response).to have_http_status(422)
+        end
+      end
+
+      context 'when not all required params presented' do
+        before do
+          get '/properties',
+              params: { lng: 52.533730, lat: 13.426110, marketing_type: :sell }
+        end
+
+        it 'returns status code 422' do
+          expect(response).to have_http_status(422)
         end
       end
     end
