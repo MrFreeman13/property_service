@@ -80,6 +80,10 @@ RSpec.describe 'Properties API', type: :request do
               params: { lng: 52.533730, lat: 13.426110, property_type: :castle, marketing_type: :sell }
         end
 
+        it 'returns error message' do
+          expect(json['error']).to eq("Request param 'property_type' has invalid value")
+        end
+
         it 'returns status code 422' do
           expect(response).to have_http_status(422)
         end
@@ -91,6 +95,10 @@ RSpec.describe 'Properties API', type: :request do
               params: { lng: 52.533730, lat: 13.426110, property_type: :apartment, marketing_type: :promo }
         end
 
+        it 'returns error message' do
+          expect(json['error']).to eq("Request param 'marketing_type' has invalid value")
+        end
+
         it 'returns status code 422' do
           expect(response).to have_http_status(422)
         end
@@ -100,6 +108,10 @@ RSpec.describe 'Properties API', type: :request do
         before do
           get '/properties',
               params: { lng: 52.533730, lat: 13.426110, marketing_type: :sell }
+        end
+
+        it 'returns error message' do
+          expect(json['error']).to eq("Request param 'property_type' is required")
         end
 
         it 'returns status code 422' do
