@@ -95,3 +95,9 @@ The rest - framework, choice of libraries/gems/external services - is entirely u
 - Postgres has some functions to [calculate distance](https://www.postgresql.org/docs/9.6/static/earthdistance.html) that can be handy
 - The service should have an obvious way to scale
 - Response time is important
+
+### How to run
+
+- Create DB
+- Restore dump from db/data directory
+- Generate schema (might need for running tests)
