@@ -30,6 +30,7 @@ ActiveRecord::Schema.define(version: 0) do
     t.decimal "number_of_rooms", precision: 15, scale: 2
     t.string "currency"
     t.decimal "price", precision: 15, scale: 2
+    t.index ["lat", "lng"], name: "properties_coordinates"
   end
 
 end
